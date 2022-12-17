@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2022 at 02:40 PM
+-- Generation Time: Dec 16, 2022 at 07:38 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -73,7 +73,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (10, '2022_10_27_135503_create_students_table', 1),
 (11, '2022_11_04_090915_create_teachers_table', 2),
-(12, '2022_11_05_134630_create_subjects_table', 3);
+(12, '2022_11_05_134630_create_subjects_table', 3),
+(13, '2022_12_03_150802_create_selected_subjects', 4);
 
 -- --------------------------------------------------------
 
@@ -109,6 +110,32 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `selected_subjects`
+--
+
+CREATE TABLE `selected_subjects` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `subject_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `prelim` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `midterm` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `semi_final` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `final` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `selected_subjects`
+--
+
+INSERT INTO `selected_subjects` (`id`, `subject_id`, `student_id`, `prelim`, `midterm`, `semi_final`, `final`, `created_at`, `updated_at`) VALUES
+(6, 3, 12, '2.3', '1.3', '1.4', '1.5', '2022-12-16 03:10:00', '2022-12-16 03:10:00'),
+(7, 5, 12, '1.2', '20', '2.0', '2.3', '2022-12-16 06:18:10', '2022-12-16 06:18:10');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `students`
 --
 
@@ -132,8 +159,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `firstname`, `lastname`, `email`, `phone`, `address`, `gender`, `birthdate`, `year_level`, `course`, `created_at`, `updated_at`) VALUES
-(1, 'XYNIEL BLYTHE', 'CREDO', 'ezernielcredo@gmail.com', '09655742488', 'PUROK 6 BALINTAWAK', 'Male', '2014-08-30', '2nd-Yr.', 'Office Administration', '2022-10-30 06:48:20', '2022-10-30 06:48:20'),
-(10, 'MERAFLOR', 'MOSQUEDA', 'meramosqueda@gmail.com', '09268136326', 'PUROK 6 BALINTAWAK', 'Male', '2022-12-07', '2nd-Yr.', 'Information Technology', '2022-11-05 07:11:01', '2022-11-05 07:11:01');
+(12, 'EZERNIEL', 'CREDO', 'ezernielcredo@gmail.com', '09655742488', 'PUROK 6 BALINTAWAK', 'Male', '2022-12-21', '1st-Yr.', 'Information Technology', '2022-12-02 05:56:45', '2022-12-02 05:56:45'),
+(13, 'MERAFLOR', 'MOSQUEDA', 'meramosqueda@gmail.com', '09655742488', 'PUROK 6 BALINTAWAK', 'Female', '2022-12-07', '1st-Yr.', 'Information Technology', '2022-12-16 03:47:24', '2022-12-16 03:47:24');
 
 -- --------------------------------------------------------
 
@@ -177,15 +204,6 @@ CREATE TABLE `teachers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `teachers`
---
-
-INSERT INTO `teachers` (`id`, `firstname`, `lastname`, `address`, `gender`, `birthdate`, `phone`, `email`, `created_at`, `updated_at`) VALUES
-(1, 'EZERNIEL', 'CREDO', 'PUROK 6 BALINTAWAK', 'Female', '2022-11-30', '09655742488', 'ezernielcredo@gmail.com', '2022-11-04 01:15:58', '2022-11-04 01:15:58'),
-(2, 'MERAFLOR', 'MOSQUEDA', 'PUROK 6 BALINTAWAK', 'Female', '2022-11-30', '09268136326', 'meramosqueda@gmail.com', '2022-11-04 03:01:59', '2022-11-04 03:01:59'),
-(3, 'MERAFLOR', 'MOSQUEDA', 'PUROK 6 BALINTAWAK', 'Female', '2022-11-30', '09268136326', 'meramosqueda@gmail.com', '2022-11-04 03:02:37', '2022-11-04 03:02:37');
 
 -- --------------------------------------------------------
 
@@ -244,6 +262,12 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indexes for table `selected_subjects`
+--
+ALTER TABLE `selected_subjects`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
@@ -282,7 +306,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -291,16 +315,22 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `selected_subjects`
+--
+ALTER TABLE `selected_subjects`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `teachers`

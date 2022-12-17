@@ -5,7 +5,7 @@
 
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
-<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 
 
@@ -37,7 +37,7 @@
           <li><a href="{{ url('/main/dashboard') }}"><i class="fa fa-tasks" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Dashboard</span></a></li>
           <li><a href="{{ url('/main/students') }}"><i class="fa fa-bar-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Students</span></a></li>
           <li><a href="{{ url('/main/teachers') }}"><i class="fa fa-user" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Teachers</span></a></li>
-           <li><a href="{{ url('/main/gradings') }}"><i class="fa fa-bar-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Gradings</span></a></li>
+         <li><a href="{{ url('/main/gradings') }}"><i class="fa fa-bar-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Gradings</span></a></li>
           <li><a href="{{ url('/main/subjects') }}"><i class="fa fa-calendar" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Subjects</span></a></li>
           <li><a href="{{ url('/main/users') }}"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Users</span></a></li>
         </ul>
@@ -64,8 +64,8 @@
           <div class="col-md-5">            
             <div class="header-rightside">
               <ul class="list-inline header-top pull-right">
-              
-                
+
+
 
                 <li>
                   <a href="#" class="icon-info">
@@ -119,129 +119,113 @@
 
 
 
-      {{-- pages start --}}
-
-
-
-       <div class="panel panel-info">
-        <div class="panel-heading">Dashboard</div>
+<div class="panel panel-default">
         <div class="panel-body">
-            
-<div class="row">
-    <div class="col-md-3">
-      <div class="card-counter primary">
-        <i class="fa fa-code-fork"></i>
-        <span class="count-numbers">{{$student_count}}</span>
-        <span class="count-name">Total Students</span>
-      </div>
-    </div>
 
-    <div class="col-md-3">
-      <div class="card-counter danger">
-        <i class="fa fa-ticket"></i>
-        <span class="count-numbers">{{$subject_count}}</span>
-        <span class="count-name">Total Subjects</span>
-      </div>
-    </div>
+<table class="table " id="grade_table">
+				
+			<caption>
+			<label>{{ $grades[0]->lastname.", ".$grades[0]->firstname }}</label>
+			<p>{{ $grades[0]->year_level}}</p>
+			<p>{{ $grades[0]->course}}</p>
 
-    <div class="col-md-3">
-      <div class="card-counter success">
-        <i class="fa fa-database"></i>
-        <span class="count-numbers">{{$teacher_count}}</span>
-        <span class="count-name">Total Teachers</span>
-      </div>
-    </div>
+		</caption>
 
-    <div class="col-md-3">
-      <div class="card-counter info">
-        <i class="fa fa-users"></i>
-        <span class="count-numbers">{{$user_count}}</span>
-        <span class="count-name">Total Users</span>
-      </div>
-    </div>
-  </div>
+	<thead class="bg-info">
+	<tr>
+		<td>Id</td>
+		<td>Subjects</td>
+		<td>Prelim</td>
+		<td>MidTerm</td>
+		<td>Semi-Final</td>
+		<td>Final</td>
+		<td>Action</td>
+	</tr>
+</thead>
+	
+		@foreach ($grades as $grade)		
+
+		<tr>
+		<form id="grade_form" action="{{ action('GradesController@update_grades',$grade->id) }}" method="post">
+			@csrf           			
+			<input type="hidden" name="hidden-id" value="{{$grade->id}}">
+			<td>{{$grade->id}}</td>
+			<td>{{$grade->title}}</td>
+			<td><input type="text" size="5"  name="prelim" id="prelim" value="{{$grade->prelim}}"> </td>
+			<td><input type="text" size="5"  name="midterm" id="midterm" value="{{$grade->midterm}}"></td>
+			<td><input type="text" size="5"  name="semi-final" id="semi-final" value="{{$grade->semi_final}}"></td>
+			<td><input type="text" size="5"  name="final" id="final" value="{{$grade->final}}"></td>
+			<td>
+				{{-- <button type="button" class="btn btn-sm btn-info" id="update" onclick="enable()">update</button> --}}
+				<button type="submit"  class="btn btn-sm btn-success" id="save"  data-id="{{$grade->id}}">save</button>
+
+			</td>
+		</form>
+		</tr>
+		@endforeach
+	
+</table>
 </div>
-
-
-
-
- </div>
-    
-
-
-
-    {{--       pages end --}}
-
-  </div>
 </div>
-
-</div>
-
-
-
 
 
 </body>
 </html>
 
 
-<style type="text/css">
-    .card-counter{
-    box-shadow: 2px 2px 10px #DADADA;
-    margin: 5px;
-    padding: 20px 10px;
-    background-color: #fff;
-    height: 100px;
-    border-radius: 5px;
-    transition: .3s linear all;
-  }
 
-  .card-counter:hover{
-    box-shadow: 4px 4px 20px #DADADA;
-    transition: .3s linear all;
-  }
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
-  .card-counter.primary{
-    background-color: #007bff;
-    color: #FFF;
-  }
 
-  .card-counter.danger{
-    background-color: #ef5350;
-    color: #FFF;
-  }  
 
-  .card-counter.success{
-    background-color: #66bb6a;
-    color: #FFF;
-  }  
+<script type="text/javascript">
 
-  .card-counter.info{
-    background-color: #26c6da;
-    color: #FFF;
-  }  
 
-  .card-counter i{
-    font-size: 5em;
-    opacity: 0.2;
-  }
+function enable(){
+	$("#save").removeAttr('disabled');
+}
 
-  .card-counter .count-numbers{
-    position: absolute;
-    right: 35px;
-    top: 20px;
-    font-size: 32px;
-    display: block;
-  }
 
-  .card-counter .count-name{
-    position: absolute;
-    right: 35px;
-    top: 65px;
-    font-style: italic;
-    text-transform: capitalize;
-    opacity: 0.5;
-    display: block;
-    font-size: 18px;
-  }
-</style>
+$('#grade_table').on('click','#fsave',function(){
+
+	var id=$(this).data('id');
+	var prelim=$('#prelim').val();
+	var midterm=$('#midterm').val();
+	var semi=$('#semi').val();
+	var final=$('#final').val();
+
+	$('#get-subjects:checked').each(function () {
+           arr[i++] = $(this).val();
+       });
+
+
+
+
+		alert(form);
+
+		$.ajax({
+        type:'post',
+        url:'{{route('update_grades')}}',
+        datatype:"json",       
+        data:{"_token": "{{ csrf_token() }}",id:id,prelim:prelim,midterm:midterm,semi:semi,final:final},
+        success:function(data){
+          alert("Done" +data);
+          console.log(data);
+        },
+        error:function(data){
+         alert('Something went wrong!');
+          console.log(data);
+        },
+
+       });
+
+
+	
+})
+
+
+
+
+
+</script>

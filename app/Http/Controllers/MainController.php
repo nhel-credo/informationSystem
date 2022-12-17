@@ -8,6 +8,7 @@ use App\models\student;
 use App\models\teacherModel;
 use App\models\SubjectModel;
 use App\models\User;
+use App\models\GradesModel;
 use DB;
 
 class MainController extends Controller
@@ -123,6 +124,15 @@ class MainController extends Controller
     function homepage()
     {
         return view('homepage');
+    }
+
+    function gradings()
+    {
+       $student = Student::all();      
+       $subjects= SubjectModel::all();
+
+       // dd($grades);
+        return view('/grades', compact('student','subjects'));
     }
 
 }
